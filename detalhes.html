@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--CSS-->
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!--JQUERY-->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <!--SearchScript-->
+    <script src="script.js"></script>
+
+    <title>BookStore</title>
+</head>
+
+<header>
+    <div class="grid-row">
+        <div class="box grid-2 desktop">
+            <a href="index.html">
+                <img src="imgs/logo.jpg" class="logo">
+            </a>
+        </div>
+        <div class="box grid-10 grid-12-mobile grid-row">
+            <div class="box grid-6 grid-12-mobile grid-row">
+                <div class="box grid-12 center-mobile">
+                    <b>Welcome Guest!</b><br>
+                    Autor: Lucas Quinino Figueiredo<br>
+                    Matrícula: 739301<br>
+                    Curso: Jogos Digitais
+                </div>
+                <div class="box grid-12 dropdown">
+                    <div class="ui-search">
+                        <input oninput="searchBar()" class="ui-input"
+                            placeholder="Search for a product, Category, Sellers or Brand" id="searchBar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <button onclick="redirectToSearchPageByTextInput()" class="ui-button">Search</button>
+                    </div>
+                    <div class="dropdown-content" id="searchResults">
+
+                    </div>
+                </div>
+            </div>
+            <div class="box grid-6 grid-12-mobile grid-row">
+                <div class="box grid-12 right-desktop center-mobile links">
+                    <a href="#">Sign In</a> | <a href="#">Register</a> | <a href="#">My Account</a> | <a href="#">Track
+                        order</a>
+                </div>
+                <div class="box grid-12 grid-row">
+                    <div class="box grid-9 header-full-text">
+                        <div>
+                            Cash on Delivery | 30 Day Return<br>
+                            24/7 Customer Service <b>1800 00 11 22</b>
+                        </div>
+                    </div>
+                    <div class="box grid-9 mobile">
+                        <div>
+                            Cash on Delivery | 30 Day Return
+                            24/7 Customer Service <b>1800 00 11 22</b>
+                        </div>
+                    </div>
+                    <div class="box grid-3 right">
+                        <button class="wide ui-button">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <br>
+                            My Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<body>
+    <!--Main Content-->
+    <div class="grid-row grid-margin">
+        <div class="grid-row" id="product">
+        </div>
+    </div>
+
+</body>
+
+<footer>
+    <div class="grid-row">
+        <div class="box grid-12 footer grid-row">
+            <div class="box grid-3 grid-12-mobile">
+                <b>Payment Methods</b>
+                <br>
+                <br>
+                <i class="fa-brands fa-cc-visa icon-big"></i>
+                <i class="fa-brands fa-cc-mastercard icon-big"></i>
+                <i class="fa-brands fa-cc-paypal icon-big"></i>
+            </div>
+            <div class="box grid-3 grid-12-mobile">
+                <b>Quick Links</b>
+                <br>
+                <br>
+                <a>Help</a><br>
+                <a>Shipping Policy</a><br>
+                <a>Cancelation & Returns</a><br>
+                <a>FAQ</a><br>
+                <a>Privacy Policy</a><br>
+                <a>Disclaimer</a>
+            </div>
+            <div class="box grid-3 grid-12-mobile">
+                <b>Lets be social</b>
+                <br>
+                <br>
+                <i class="fa-brands fa-square-facebook icon-big"></i>
+                <i class="fa-brands fa-square-tumblr icon-big"></i>
+                <i class="fa-brands fa-square-google-plus icon-big"></i>
+            </div>
+            <div class="box grid-3 grid-12-mobile">
+                <b>Contact us</b>
+                <br>
+                <br>
+                Address line one<br>
+                Street No<br>
+                Place<br>
+                <i class="fa-solid fa-envelope"></i>&ensp;<a>info@company.com</a><br>
+                <i class="fa-solid fa-phone"></i>&ensp;<b>1800 4400 22</b>
+            </div>
+        </div>
+        <div class="box grid-12 footer-darker center">
+            © 2007 - 2014 company.com.
+        </div>
+    </div>
+</footer>
+
+<script>
+    $(document).ready(function () {
+        // Get the object ID from the query parameter in the URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var objectId = urlParams.get('id');
+        var objectCat = urlParams.get('category');
+
+        // Fetch the details of the specific object using the object ID
+        $.ajax({
+            url: 'https://diwserver.vps.webdock.cloud/products/' + objectId,
+            method: 'GET',
+            success: function (data) {
+                // Process and display the details of the object in the details.html file
+                console.log(data.category)
+                
+                let str = `
+                    <div class="box grid-3 grid-12-mobile">
+                        <img alt="" src="${data.image}" class="product-item-img">
+                    </div>
+                    <div class="grid-4 grid-12-mobile description">
+                        <h1>${data.title}</h1>
+                        <p class="description">${data.description}</p><br>
+                        <p>Season: ${data.season}</p>
+                        <p>Usage: ${data.usage}</p>
+                        <p>Gender: ${data.gender}</p>
+                        <p>Article Number: ${data.articleNumber}</p>
+                        <p>Article Base Color: ${data.baseColour}</p>
+                        <p>Article Year: ${data.year}</p>
+                        <p>Article Article Type: ${data.articleType}</p>
+                        <p>Article Display Categories: ${data.displayCategories}</p>
+                    </div>
+                    <div class"grid-4 grid-margin">
+                        <h2>R$ ${data.price}.00</h2>
+                        
+                        <h3>Rating: ${data.rating.rate}/5.0</h3>
+                        <h3>Total Reviews: ${data.rating.count}</h3>
+                        <h3>Brand: ${data.brandName}</h3>
+                        <h3>Category: ${data.category}</h3>
+                        <h3>Brand: ${data.brandName}</h3>
+                        <div>
+                            <button class="wide ui-button">Add To Cart</button>
+                        </div>
+                    </div>
+                    `
+
+                document.getElementById(`product`).innerHTML = str
+            },
+            error: function () {
+                console.log('Error fetching object details.');
+            }
+        });
+
+
+        $.ajax({
+            url: `https://diwserver.vps.webdock.cloud/products/category/` + objectCat,
+            method: 'GET',
+            success: function (data) {
+                console.log(`Produtos: ` + data.products.length)
+            },
+            error: function () {
+                console.log('Error fetching object details.');
+            }
+        })
+
+    });
+
+
+</script>
+
+</html>

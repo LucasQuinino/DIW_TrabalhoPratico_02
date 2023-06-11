@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Font-Awesome-->
+
+    <!--CSS-->
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!--JQUERY-->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+    <!--SearchScript-->
+    <script src="script.js"></script>
+
+    <!--Carousel-->
+    <script src="
+    https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js
+    "></script>
+    <link href="
+    https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css
+    " rel="stylesheet">
+
+    <title>FakeStore</title>
+</head>
+
+<header>
+    <div class="grid-row">
+        <div class="box grid-2 desktop">
+            <a href="index.html">
+                <img src="imgs/logo.jpg" class="logo">
+            </a>
+        </div>
+        <div class="box grid-10 grid-12-mobile grid-row">
+            <div class="box grid-6 grid-12-mobile grid-row">
+                <div class="box grid-12 center-mobile">
+                    <b>Welcome Guest!</b><br>
+                    Autor: Lucas Quinino Figueiredo<br>
+                    Matrícula: 739301<br>
+                    Curso: Jogos Digitais
+                </div>
+                <div class="box grid-12 dropdown">
+                    <!--Search Bar-->
+                    <div class="ui-search">
+                        <input oninput="searchBar()" class="ui-input"
+                            placeholder="Search for a product, Category, Sellers or Brand" id="searchBar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <button onclick="redirectToSearchPageByTextInput()" class="ui-button">Search</button>
+                    </div>
+                    <!--Search Results Dropdown-->
+                    <div class="dropdown-content" id="searchResults"></div>
+                </div>
+            </div>
+            <div class="box grid-6 grid-12-mobile grid-row">
+                <div class="box grid-12 right-desktop center-mobile links">
+                    <a href="#">Sign In</a> | <a href="#">Register</a> | <a href="#">My Account</a> | <a href="#">Track
+                        order</a>
+                </div>
+                <div class="box grid-12 grid-row">
+                    <div class="box grid-9 header-full-text">
+                        <div>
+                            Cash on Delivery | 30 Day Return<br>
+                            24/7 Customer Service <b>1800 00 11 22</b>
+                        </div>
+                    </div>
+                    <div class="box grid-9 mobile">
+                        <div>
+                            Cash on Delivery | 30 Day Return
+                            24/7 Customer Service <b>1800 00 11 22</b>
+                        </div>
+                    </div>
+                    <div class="box grid-3 right">
+                        <button class="wide ui-button">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <br>
+                            My Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!--Filter and Carousel-->
+<section>
+
+    <div class="grid-row grid-margin">
+        <div class="grid-row">
+            <div class="box grid-3 grid-12-mobile">
+                <div class="card">
+                    <b>Quick Find - Choose Product Category</b><br>
+                    Find the type of product you are looking for!
+                    <br><br>
+
+                    <select class="ui-select" id="category">
+                        <option value="">Category</option>
+                    </select>
+                    <br>
+                    <button onclick="redirectToSearchPageByCategory()" class="wide ui-button">Search</button>
+                </div>
+            </div>
+            <div class="box grid-9 grid-12-mobile">
+                <div class="card">
+                    <section id="image-carousel" class="splide" aria-label="Beautiful Images">
+                        <div class="splide__track">
+                            <ul class="splide__list" id="carouselItems">
+
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<body>
+    <!--Main Content-->
+    <div class="grid-row grid-margin">
+        <!--Products-->
+        <div class="grid-row">
+            <!--Items-->
+            <div class="box grid-9 grid-12-mobile grid-row" id="items"></div>
+
+
+            <!--Most Reviewd-->
+            <div class="box grid-3 grid-12-mobile grid-row">
+                <div class="box grid-12">
+                    <div class="card" id="mostReviewsList">
+
+                        <button class="right ui-button">See More</button>
+                    </div>
+                </div>
+                <div class="box grid-12">
+                    <div class="card">
+                        <b>Newsletter</b><br>
+                        Signup for newsletter!
+                        <br>
+                        <input class="ui-input">
+                        <br>
+                        <button class="right ui-button">Join Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+<!--Main Footer-->
+<footer>
+    <div class="grid-row">
+        <div class="box grid-12 footer grid-row">
+            <div class="box grid-3 grid-12-mobile">
+                <b>Payment Methods</b>
+                <br>
+                <br>
+                <i class="fa-brands fa-cc-visa icon-big"></i>
+                <i class="fa-brands fa-cc-mastercard icon-big"></i>
+                <i class="fa-brands fa-cc-paypal icon-big"></i>
+            </div>
+            <div class="box grid-3 grid-12-mobile">
+                <b>Quick Links</b>
+                <br>
+                <br>
+                <a>Help</a><br>
+                <a>Shipping Policy</a><br>
+                <a>Cancelation & Returns</a><br>
+                <a>FAQ</a><br>
+                <a>Privacy Policy</a><br>
+                <a>Disclaimer</a>
+            </div>
+            <div class="box grid-3 grid-12-mobile">
+                <b>Lets be social</b>
+                <br>
+                <br>
+                <i class="fa-brands fa-square-facebook icon-big"></i>
+                <i class="fa-brands fa-square-tumblr icon-big"></i>
+                <i class="fa-brands fa-square-google-plus icon-big"></i>
+            </div>
+            <div class="box grid-3 grid-12-mobile">
+                <b>Contact us</b>
+                <br>
+                <br>
+                Address line one<br>
+                Street No<br>
+                Place<br>
+                <i class="fa-solid fa-envelope"></i>&ensp;<a>info@company.com</a><br>
+                <i class="fa-solid fa-phone"></i>&ensp;<b>1800 4400 22</b>
+            </div>
+        </div>
+        <div class="box grid-12 footer-darker center">
+            © 2007 - 2014 company.com.
+        </div>
+    </div>
+</footer>
+<script>
+    var current_page = 1;
+    var max_pages = Infinity;
+
+    function loadProductList() {
+        //Products Main List
+        $.ajax({
+            url: 'https://diwserver.vps.webdock.cloud/products?page=' + current_page + '&page_items=9',
+            method: 'GET',
+            success: function (data) {
+                max_pages = data.total_pages;
+                let str = ''
+                for (let i = 0; i < data.products.length; i++) {
+                    let produto = data.products[i]
+                    str += `<div class="box grid-4 grid-12-mobile product">
+                                <div class="card">
+                                    <a href="detalhes.html?id=${produto.id}&category=${produto.category}">
+                                        <img src="${produto.image}" class="product-item-img">
+                                        <br>
+                                        <a href="detalhes.html?id=${produto.id}&category=${produto.category}">${produto.title}</a><br>
+                                        <b class>R$${produto.price}.00</b> 
+                                        <div>${produto.displayCategories}</div>
+                                        <div>Rating: ${produto.rating.rate}/5.0</div>
+                                        <b>${produto.brandName}</b>
+                                    </a>
+                                </div>
+                            </div>`
+                }
+
+                str += `<div class = "grid-row">
+                            <button onclick="changePage('previous')" class="left grid-1 grid-margin"> << Previous Page </button>
+                            <button onclick="changePage('next')" class="right grid-1 grid-margin"> Next Page >> </button>
+                        </div>`
+                document.getElementById('items').innerHTML = str
+            },
+            error: function () {
+                console.log('Error fetching products.');
+            }
+        });
+    }
+
+    function loadHomePage() {
+        //Categories Filter
+        $.ajax({
+            url: 'https://diwserver.vps.webdock.cloud/products/categories',
+            method: 'GET',
+            success: function (data) {
+
+                let str = `<option disabled selected hidden>Category</option>`
+                for (let i = 0; i < data.length; i++) {
+                    let categoria = data[i]
+                    str += `<option value="">${categoria}</option>`
+
+                }
+                document.getElementById('category').innerHTML = str
+
+            },
+            error: function () {
+                console.log('Error fetching categories.');
+            }
+        });
+
+        //Most Reviews & Carousel Items
+        $.ajax({
+            url: 'https://diwserver.vps.webdock.cloud/products?page=1&page_items=100',
+            method: 'GET',
+            success: function (data) {
+                var ratingsList = new Array();
+                var mostRatedProducts = new Array();
+
+                data.products.forEach(product => {
+                    ratingsList.push(product.rating.count);
+                    mostRatedProducts.push(product);
+                });
+                ratingsList.sort((a, b) => b - a);
+                mostRatedProducts.sort((a, b) => b.rating.count - a.rating.count);
+
+                mostRatedProducts.forEach(product => {
+                    console.log("Produtos: " + product.rating.count);
+                });
+                //console.log("Review Count List: " + ratings);
+
+
+                var str = `<b>Most Reviewed Items</b>`;
+
+                for (let i = 0; i < 7; i++) {
+                    var productLink = `detalhes.html?id=${mostRatedProducts[i].id}&category=${mostRatedProducts[i].category}`;
+                    str += `<div class="box grid-12 grid-row">
+                                <div class="grid-4">
+                                    <a href=${productLink}><img src="${mostRatedProducts[i].image}" class="item-img"></a>
+                                </div>
+                                <div class="grid-8">
+                                    <a href=${productLink}>${mostRatedProducts[i].title}</a><br>
+                                    <b>R$${mostRatedProducts[i].price}.00</b><br>
+                                    Rating: ${mostRatedProducts[i].rating.rate}/5.0 <br>
+                                    Total Reviews: ${mostRatedProducts[i].rating.count}
+                                </div>
+                            </div>`
+                    if (i < 6)
+                        str += `<div class="separator"></div>`
+                }
+
+                document.getElementById('mostReviewsList').innerHTML = str;
+
+                var c = ``;
+
+                for (let i = 7; i < 17; i++) {
+                    var productLink = `detalhes.html?id=${mostRatedProducts[i].id}&category=${mostRatedProducts[i].category}`;
+                    c += `<li class="splide__slide">
+                                <a href=${productLink}><img src="${mostRatedProducts[i].image}"></a>
+                            </li>`
+                }
+
+                document.getElementById('carouselItems').innerHTML = c;
+
+                var splide = new Splide('.splide');
+                splide.mount();
+
+                console.log(c);
+            },
+            error: function () {
+                console.log('Error fetching products.');
+            }
+        });
+    }
+
+    function changePage(direction) {
+        if (direction == "next" && current_page < max_pages)
+            current_page++;
+        else if (direction == "previous" && current_page > 1)
+            current_page--;
+
+        loadProductList();
+    }
+
+    $(document).ready(function () {
+        loadHomePage();
+        loadProductList();
+    })
+
+    /*
+    document.addEventListener('DOMContentLoaded', function () {
+        var splide = new Splide('.splide');
+        splide.mount();
+    });
+    */
+
+</script>
+
+</html>

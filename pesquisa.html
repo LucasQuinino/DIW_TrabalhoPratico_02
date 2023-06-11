@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--CSS-->
+    <link rel="stylesheet" href="layout.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!--JQUERY-->
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <!--SearchScript-->
+    <script src="script.js"></script>
+
+    <title>BookStore</title>
+</head>
+
+<header>
+    <div class="grid-row">
+        <div class="box grid-2 desktop">
+            <a href="index.html">
+                <img src="imgs/logo.jpg" class="logo">
+            </a>
+        </div>
+        <div class="box grid-10 grid-12-mobile grid-row">
+            <div class="box grid-6 grid-12-mobile grid-row">
+                <div class="box grid-12 center-mobile">
+                    <b>Welcome Guest!</b><br>
+                    Autor: Lucas Quinino Figueiredo<br>
+                    Matrícula: 739301<br>
+                    Curso: Jogos Digitais
+                </div>
+                <div class="box grid-12 dropdown">
+                    <div class="ui-search">
+                        <input oninput="searchBar()" class="ui-input"
+                            placeholder="Search for a product, Category, Sellers or Brand" id="searchBar">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <button onclick="redirectToSearchPageByTextInput()" class="ui-button">Search</button>
+                    </div>
+                    <div class="dropdown-content" id="searchResults">
+
+                    </div>
+                </div>
+            </div>
+            <div class="box grid-6 grid-12-mobile grid-row">
+                <div class="box grid-12 right-desktop center-mobile links">
+                    <a href="#">Sign In</a> | <a href="#">Register</a> | <a href="#">My Account</a> | <a href="#">Track
+                        order</a>
+                </div>
+                <div class="box grid-12 grid-row">
+                    <div class="box grid-9 header-full-text">
+                        <div>
+                            Cash on Delivery | 30 Day Return<br>
+                            24/7 Customer Service <b>1800 00 11 22</b>
+                        </div>
+                    </div>
+                    <div class="box grid-9 mobile">
+                        <div>
+                            Cash on Delivery | 30 Day Return
+                            24/7 Customer Service <b>1800 00 11 22</b>
+                        </div>
+                    </div>
+                    <div class="box grid-3 right">
+                        <button class="wide ui-button">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <br>
+                            My Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<body>
+    <div class="box grid-12 grid-row" id="searchItems"> Nothing to see here, move along</div>
+</body>
+
+<script>
+    var current_page = 1;
+    var max_pages = Infinity;
+
+    $(document).ready(function () {
+        loadSearchPage();
+
+    });
+
+    function loadSearchPage() {
+        // Get query & category from the parameters in the URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var query = urlParams.get('query');
+        var category = urlParams.get('category');
+
+        //Search By Category
+        if (query == null) {
+            console.log("Search By Category")
+
+            $.ajax({
+                url: `https://diwserver.vps.webdock.cloud/products/category/${category}?page=${current_page}&page_items=12`,
+                method: 'GET',
+                success: function (data) {
+                    max_pages = data.total_pages;
+                    var str = `<div class="wide"><h1>Showing Results for: "${category}"</h1></div>`;
+                    data.products.forEach(produto => {
+                        str += `<div class="box grid-3 grid-6-mobile product">
+                                <div class="card">
+                                    <a href="detalhes.html?id=${produto.id}&category=${produto.category}">
+                                        <img src="${produto.image}" class="product-item-img">
+                                        <br>
+                                        <a href="detalhes.html?id=${produto.id}&category=${produto.category}">${produto.title}</a><br>
+                                        <b class> R$${produto.price}.00</b> 
+                                        <div>${produto.displayCategories}</div>
+                                        <div>Rating: ${produto.rating.rate}/5.0</div>
+                                        <b>${produto.brandName}</b>
+                                    </a>
+                                </div>
+                            </div>`
+                    });
+                    if (max_pages > 1) {
+                        str += `<div class = "grid-row">
+                            <button onclick="changePage('previous')" class="left grid-1 grid-margin"> << Previous Page </button>
+                            <button onclick="changePage('next')" class="right grid-1 grid-margin"> Next Page >> </button>
+                        </div>`
+                    }
+
+                    document.getElementById('searchItems').innerHTML = str
+                },
+                error: function () {
+                    console.log('Error fetching object details.');
+                }
+            })
+        }
+
+        //Search By Text Input
+        else if (category == null) {
+            console.log("Search By Text")
+
+            fetch('https://diwserver.vps.webdock.cloud/products/search?query=' + query)
+                .then(response => response.json())
+                .then(data => {
+                    var str = `<div class="wide"><h1>Showing Results for: "${query}"</h1></div>`;
+                    data.forEach(produto => {
+                        str += `<div class="box grid-3 grid-12-mobile product">
+                                <div class="card">
+                                    <a href="detalhes.html?id=${produto.id}&category=${produto.category}">
+                                        <img src="${produto.image}" class="product-item-img">
+                                        <br>
+                                        <a href="detalhes.html?id=${produto.id}&category=${produto.category}">${produto.title}</a><br>
+                                        <b class> R$${produto.price}.00</b> 
+                                        <div> ${produto.displayCategories}</div>
+                                        <div>Rating: ${produto.rating.rate}/5.0</div>
+                                        <b> ${produto.brandName} </b>
+                                    </a>
+                                </div>
+                            </div>`
+                    });
+                    document.getElementById('searchItems').innerHTML = str
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+
+    function changePage(direction) {
+        if (direction == "next" && current_page < max_pages)
+            current_page++;
+        else if (direction == "previous" && current_page > 1)
+            current_page--;
+
+        loadSearchPage()
+    }
+</script>
+
+</html>
